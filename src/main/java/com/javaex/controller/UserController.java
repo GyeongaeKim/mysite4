@@ -52,7 +52,24 @@ public class UserController {
 		userService.getUser(userVo);
 		return "user/loginForm";
 	}
+	
+	
 	//5. 로그아웃
 	//6. 수정폼
+	@RequestMapping(value="/user/modifyForm", method = {RequestMethod.GET, RequestMethod.POST})
+	public String modifyForm() {
+		System.out.println("UserController>modifyForm()");
+		return "user/modifyForm";
+	}
+	
+	
 	//7. 수정
+	@RequestMapping(value="/user/modify", method = {RequestMethod.GET, RequestMethod.POST})
+	public String modify(@ModelAttribute UserVo userVo) {
+		System.out.println("UserController>modify()");
+		userService.userUpdate(userVo);
+		return "redirect:/main";
+	}
+	
+	
 }
