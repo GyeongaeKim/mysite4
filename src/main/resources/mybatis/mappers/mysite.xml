@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mysite">
+	
+	<!-- 쿼리문 작성 -->
+	<resultMap id="resultMapUserVo" type="com.javaex.vo.UserVo" >
+	    <result column="no" property="no" />
+	    <result column="id" property="id" />
+	    <result column="name" property="name" />
+	    <result column="password" property="password" />
+	    <result column="gender" property="gender" />
+	</resultMap>
+	
+	
+	
+	
+	
+	<!-- 회원가입 insert -->
+	<insert id="userInsert" parameterType="UserVo">
+		<![CDATA[
+			insert into users
+			values(seq_users_no.nextval, #{id}, #{password}, #{name}, #{gender})
+		]]>
+	</insert>
+	
+		
+	<!-- 로그인 - 사용자 정보 가져오기 -->
+	<select id="getUser" parameterType="UserVo" resultMap="resultMapUserVo">
+		<![CDATA[
+			select  no,
+					name
+			from users
+			where id = #{id}
+				and password = #{password}
+		]]>
+	</select>
+	
+	
+	<!-- 수정 - 사용자 정보 가져오기 -->
+	<select id="getModifyUser" parameterType="UserVo" resultMap="resultMapUserVo">
+		<![CDATA[
+			select  no,
+					id,
+					name,
+					password,
+					gender
+			from users
+			where no = #{no}
+		]]>
+	</select>
+	
+	
+	<!-- 수정 update -->
+	<update id="userUpdate" parameterType="UserVo">
+		<![CDATA[
+			update users
+			set password = #{password},
+				name = #{name},
+				gender = #{gender}
+			where no = #{no}
+		]]>
+	</update>
+	
+
+</mapper>
