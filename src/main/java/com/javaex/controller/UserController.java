@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -65,26 +66,50 @@ public class UserController {
 			System.out.println("로그인 실패ㅠㅠ");
 			return "redirect:/user/loginForm?result=fail";
 		}
-		
-		
-		
-		
 	}
 	
 	
 	//5. 로그아웃
+	@RequestMapping(value="/user/logout", method = {RequestMethod.GET, RequestMethod.POST})
+	public String logout(@ModelAttribute UserVo userVo, HttpSession session) {
+		System.out.println("UserController>logout()");
+		session.removeAttribute("authUser");
+		session.invalidate();
+		
+		return "redirect:/main";
+	}
+	
 	//6. 수정폼
 	@RequestMapping(value="/user/modifyForm", method = {RequestMethod.GET, RequestMethod.POST})
-	public String modifyForm() {
+	public String modifyForm(Model model, @ModelAttribute UserVo userVo, HttpSession session) {
 		System.out.println("UserController>modifyForm()");
+		
+		
+		
+		//로그인한 사용자의 no값을 세션에서 가져오기
+		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		int no = authUser.getNo();
+		System.out.println(no);
+		
+		//no로 사용자 정보 가져오기
+		userVo = userService.getModifyUser(no);
+		System.out.println(userVo);
+		
+		model.addAttribute("userVo", userVo);
 		return "user/modifyForm";
 	}
 	
 	
 	//7. 수정
 	@RequestMapping(value="/user/modify", method = {RequestMethod.GET, RequestMethod.POST})
-	public String modify(@ModelAttribute UserVo userVo) {
+	public String modify(@ModelAttribute UserVo userVo, HttpSession session) {
 		System.out.println("UserController>modify()");
+		
+		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		int no = authUser.getNo();
+		
+		userVo.setNo(no);
+		
 		userService.userUpdate(userVo);
 		return "redirect:/main";
 	}

@@ -38,7 +38,7 @@
 	
 	
 	<!-- 수정 - 사용자 정보 가져오기 -->
-	<select id="getModifyUser" parameterType="UserVo" resultMap="resultMapUserVo">
+	<select id="getModifyUser" parameterType="int" resultMap="resultMapUserVo">
 		<![CDATA[
 			select  no,
 					id,

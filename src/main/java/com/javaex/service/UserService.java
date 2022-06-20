@@ -35,9 +35,9 @@ public class UserService {
 	
 	//3. 로그아웃
 	//4. 회원정보 가져오기(수정)
-	public UserVo getModifyUser(UserVo userVo) {
+	public UserVo getModifyUser(int no) {
 		System.out.println("UserService>getModifyUser()");
-		return  userDao.getModifyUser(userVo);
+		return  userDao.getModifyUser(no);
 	}
 	
 	//5. 수정

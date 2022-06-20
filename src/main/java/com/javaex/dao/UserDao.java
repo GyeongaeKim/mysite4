@@ -31,9 +31,9 @@ public class UserDao {
 	
 	//3. 로그아웃
 	//4. 회원정보 가져오기(수정)
-	public UserVo getModifyUser (UserVo userVo) {
+	public UserVo getModifyUser (int no) {
 		System.out.println("UserDao>getModifyUser()");
-		return sqlSession.selectOne("user.getModifyUser", userVo);
+		return sqlSession.selectOne("user.getModifyUser", no);
 	}
 	
 	//5. 수정
