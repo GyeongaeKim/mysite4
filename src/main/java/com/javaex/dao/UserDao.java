@@ -17,13 +17,15 @@ public class UserDao {
 	//1.회원등록
 	public int userInsert(UserVo userVo) {
 		System.out.println("UserDao>userInsert()");
-		return sqlSession.insert("mysite.userInsert", userVo);
+		return sqlSession.insert("user.userInsert", userVo);
 	}
 	
 	//2. 로그인
 	public UserVo getUser (UserVo userVo) {
 		System.out.println("UserDao>getUser()");
-		return sqlSession.selectOne("mysite.getUser", userVo);
+		UserVo authVo = sqlSession.selectOne("user.getUser", userVo);
+		System.out.println("Dao " + authVo);
+		return authVo;
 	}
 
 	
@@ -31,13 +33,13 @@ public class UserDao {
 	//4. 회원정보 가져오기(수정)
 	public UserVo getModifyUser (UserVo userVo) {
 		System.out.println("UserDao>getModifyUser()");
-		return sqlSession.selectOne("mysite.getModifyUser", userVo);
+		return sqlSession.selectOne("user.getModifyUser", userVo);
 	}
 	
 	//5. 수정
 	public int userUpdate(UserVo userVo) {
 		System.out.println("UserDao>userUpdate()");
-		return sqlSession.update("mysite.userUpdate", userVo);
+		return sqlSession.update("user.userUpdate", userVo);
 	}
 	
 }

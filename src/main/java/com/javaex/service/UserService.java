@@ -25,9 +25,12 @@ public class UserService {
 	}
 	
 	//2. 로그인
-	public UserVo getUser(UserVo userVo) {
-		System.out.println("UserService>getUser()");
-		return  userDao.getUser(userVo);
+	public UserVo userLogin(UserVo userVo) {
+		System.out.println("UserService>userLogin()");
+		UserVo authUser = userDao.getUser(userVo);
+		
+		
+		return authUser;
 	}
 	
 	//3. 로그아웃
