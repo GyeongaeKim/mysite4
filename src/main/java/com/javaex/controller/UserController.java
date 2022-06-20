@@ -109,8 +109,9 @@ public class UserController {
 		int no = authUser.getNo();
 		
 		userVo.setNo(no);
-		
 		userService.userUpdate(userVo);
+		session.setAttribute("authUser", userVo);
+		
 		return "redirect:/main";
 	}
 	
