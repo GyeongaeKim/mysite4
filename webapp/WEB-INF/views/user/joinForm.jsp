@@ -6,8 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link href="/mysite4/assets/css/mysite.css" rel="stylesheet" type="text/css">
-<link href="/mysite4/assets/css/user.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/assets/css/mysite.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/assets/css/user.css" rel="stylesheet" type="text/css">
 
 </head>
 
@@ -15,10 +15,7 @@
 	<div id="wrap">
 
 		<!-- //header -->
-		<c:import url="/WEB-INF/views/includes/header.jsp"></c:import>
-
-		<!-- //nav -->
-		<c:import url="/WEB-INF/views/includes/nav.jsp"></c:import>
+		<c:import url="/WEB-INF/views/includes/header_nav.jsp"></c:import>
 
 		<div id="container" class="clearfix">
 			<div id="aside">
