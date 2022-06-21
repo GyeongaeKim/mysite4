@@ -22,9 +22,7 @@ public class BoardDao {
 	}
 	
 	
-	
 	//2. 게시판 검색
-	
 	
 	
 	//3. 삭제

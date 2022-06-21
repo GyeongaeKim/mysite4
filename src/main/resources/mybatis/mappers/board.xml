@@ -28,6 +28,7 @@
 			        to_char(reg_date,'YY-MM-DD HH24:MM') regDate
 			from board b, users u
 			where b.user_no=u.no
+				and b.title like #{keyword}
 			order by reg_date desc
 		]]>
 	</select>
