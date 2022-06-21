@@ -77,7 +77,11 @@
 								</span>
 							</div>
 							
-							<a id="btn_modify" href="/mysite4/board/modifyForm?no=${boardMap.NO }">수정</a>
+							<c:choose>
+								<c:when test="${authUser.name == boardVo.name}">
+									<a id="btn_modify" href="/mysite4/board/modifyForm?no=${boardMap.NO }">수정</a>
+								</c:when>
+							</c:choose>
 							<a id="btn_modify" href="/mysite4/board/list">목록</a>
 						</form>	
 						
