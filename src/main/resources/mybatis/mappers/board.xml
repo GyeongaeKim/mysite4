@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board">
+	
+	<!-- 쿼리문 작성 -->
+	<resultMap id="resultMapBoardVo" type="com.javaex.vo.BoardVo">
+		<result column="no" property="no" />
+		<result column="title" property="title" />
+		<result column="content" property="content" />
+		<result column="hit" property="hit" />
+		<result column="reg_date" property="regDate" />
+		<result column="name" property="name" />
+		<result column="user_no" property="userNo" />
+	</resultMap>
+	
+	
+	
+	
+	
+	<!-- 게시판 리스트 boardList -->
+	<select id="boardList" parameterType="String" resultMap="resultMapBoardVo">
+		<![CDATA[
+			select  b.no,
+			        u.name,
+			        b.title,
+			        b.hit,
+			        to_char(reg_date,'YY-MM-DD HH24:MM') regDate
+			from board b, users u
+			where b.user_no=u.no
+			order by reg_date desc
+		]]>
+	</select>
+	
+	
+	
+	<!-- 삭제 boardDelete -->
+	<delete id="boardDelete" parameterType="int">
+		<![CDATA[
+			delete from board
+			where no = #{no}
+		]]>
+	</delete>
+	
+	
+	<!-- 조회수 updateHit -->
+	<update id="updateHit" parameterType="int">
+		<![CDATA[
+			update board
+			set hit = hit+1
+			where no = #{no}
+		]]>
+	</update>
+	
+	
+	<!-- 게시판읽기 readBoard -->
+	<select id="readBoard" parameterType="int" resultType="map">
+		<![CDATA[
+			select  b.no,
+			        name,
+			        hit,
+			      	to_char(reg_date,'YY-MM-DD HH24:MM') regDate,
+			        title,
+			        content,
+			        user_no userNo
+			from board b, users u
+			where b.user_no=u.no
+					and b.no = #{no}
+		]]>
+	</select>
+	
+	
+	<!-- 게시판가져오기(수정) getBoard -->
+	<select id="getBoard" parameterType="int" resultType="map">
+		<![CDATA[
+			select  name,
+			        hit,
+			        to_char(reg_date,'YY-MM-DD HH24:MM') regDate,
+			        title,
+			        content,
+			        user_no userNo
+			from board b, users u
+			where b.user_no=u.no
+					and b.no = #{no}
+		]]>
+	</select>
+	
+	
+	
+	<!-- 게시판 수정 boardUpdate -->
+	<update id="boardUpdate" parameterType="BoardVo">
+		<![CDATA[
+			update board
+			set title = #{title},
+			    content = #{content}
+			where no = #{no}
+		]]>
+	</update>
+	
+	
+	<!-- 게시판 등록 boardInsert -->
+	<insert id="boardInsert" parameterType="BoardVo">
+		<![CDATA[
+			insert into board
+			values(seq_board_no.nextval, #{title}, #{content}, 0, sysdate, #{userNo})
+		]]>
+	</insert>
+	
+
+</mapper>
