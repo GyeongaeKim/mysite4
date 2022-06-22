@@ -43,7 +43,7 @@ public class BoardController {
 		return "board/list";
 	}
 	
-	
+	 
 	
 	//2. 게시판 검색
 	//3. 삭제
