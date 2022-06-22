@@ -60,11 +60,9 @@ public class BoardController {
 	public String read(Model model, @RequestParam("no") int no) {
 		System.out.println("BoardController>read()");
 		
-		//조회수먼저 올리고 게시글을 불러와야한다
-		boardService.updateHit(no);
 		Map<String, Object> boardMap = boardService.readBoard(no);
-		
 		model.addAttribute("boardMap", boardMap);
+		
 		return "board/read";
 	}
 	

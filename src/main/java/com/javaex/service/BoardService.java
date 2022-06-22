@@ -38,15 +38,15 @@ public class BoardService {
 		return boardDao.boardDelete(no);
 	}
 	
+	
+	
 	//4. 읽기 -조회수+
-	public int updateHit(int no) {
-		System.out.println("BoardService>updateHit()");
-		return boardDao.updateHit(no);
-	}
-	//4. 게시글 읽기
 	public Map<String, Object> readBoard(int no) {
 		System.out.println("BoardService>readBoard()");
+		
+		boardDao.updateHit(no);
 		Map<String, Object> boardMap = boardDao.readBoard(no);
+		
 		return boardMap;
 	}
 	
