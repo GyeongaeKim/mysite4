@@ -28,9 +28,39 @@ public class BoardService {
 	}
 	
 	
+	
+	
+	//수업시간 코드///////////////////////////////////////////
+	public List<BoardVo> getBoardList3(String keyword) {
+		System.out.println("BoardService>getBoardList3()");
+		List<BoardVo> boardList = boardDao.selectList3(keyword);	
+		return boardList;
+	}
+	
+	// 리스트(리스트만 출력할때)
+	public List<BoardVo> getBoardList() {
+		System.out.println("BoardService>getBoardList()");
+		List<BoardVo> boardList = boardDao.selectList();	
+		return boardList;
+	}
+	public List<BoardVo> getBoardList2(String keyword){
+		System.out.println("BoardService>getBoardList2()");
+		List<BoardVo> boardList = boardDao.selectList2(keyword);
+		return boardList;
+	}
+	
+	
+	/////////////////////////////////////////////////////////////////
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	//2. 게시판 검색
-	
-	
 	//3. 삭제
 	public int boardDelete(int no) {
 		System.out.println("BoardService>boardDelete()");

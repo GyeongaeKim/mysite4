@@ -43,7 +43,52 @@ public class BoardController {
 		return "board/list";
 	}
 	
-	 
+	
+	///수업시간 코드//////////////////////////////////////////
+	//리스트(일반 + 검색)
+	@RequestMapping(value = "/board/list3", method = { RequestMethod.GET, RequestMethod.POST })
+	public String list3(Model model, 
+						@RequestParam(value="keyword", required=false, defaultValue="") String keyword) {
+		System.out.println("BoardContoller>list3()");
+
+		List<BoardVo> boardList = boardService.getBoardList3(keyword);	
+		model.addAttribute("boardList", boardList);
+		
+		return "board/list3";
+	}
+	
+	
+	// 리스트(리스트만 출력할때)
+	@RequestMapping(value = "/list", method = { RequestMethod.GET, RequestMethod.POST })
+	public String list(Model model) {
+		System.out.println("BoardContoller>list()");
+
+		List<BoardVo> boardList = boardService.getBoardList();
+		
+		model.addAttribute("boardList", boardList);
+		return "board/list";
+	}
+
+	
+	
+	@RequestMapping(value = "/search", method = { RequestMethod.GET, RequestMethod.POST })
+	public String search(@RequestParam("keyword") String keyword, Model model  ) {
+		System.out.println("BoardContoller>search()");
+		
+		List<BoardVo> boardList = boardService.getBoardList2(keyword);
+		model.addAttribute("boardList", boardList);
+		
+		return "board/list2";
+	}
+	
+	////////////////////////////////////////////////////////////////////////////////////	
+	
+	
+	
+	
+	
+	
+	
 	
 	//2. 게시판 검색
 	//3. 삭제

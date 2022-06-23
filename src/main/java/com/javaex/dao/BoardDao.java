@@ -22,9 +22,38 @@ public class BoardDao {
 	}
 	
 	
+	
+	
+	///수업시간 코드/////////////////////////////////////////////////////////
+	public List<BoardVo> selectList3(String keyword) {
+		System.out.println("BoardDao>selectList3()");
+		List<BoardVo> boardList = sqlSession.selectList("board.selectList3", keyword);
+		return boardList;
+	}
+	
+	// 글전체 가져오기(리스트만 출력할때)
+	public List<BoardVo> selectList() {
+		System.out.println("BoardDao>selectList()");
+		List<BoardVo> boardList = sqlSession.selectList("board.selectList");
+		return boardList;
+	}
+	
+	public List<BoardVo> selectList2(String keyword){
+		System.out.println("BoardDao>selectList2()");
+		System.out.println(keyword);
+		List<BoardVo> boardList = sqlSession.selectList("board.selectList2", keyword);
+		return boardList;
+	}
+	
+	
+	/////////////////////////////////////////////////////////////////////
+	
+	
+	
+	
+	
+	
 	//2. 게시판 검색
-	
-	
 	//3. 삭제
 	public int boardDelete(int no) {
 		System.out.println("BoardDao>boardDelete()");
