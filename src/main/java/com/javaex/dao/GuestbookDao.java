@@ -42,5 +42,28 @@ public class GuestbookDao {
 		System.out.println("GuestbookDao>selectList()");
 		return sqlSession.selectList("guestbook.selectList");
 	}
+	
+	
+	//ajax활용 - 방명록 저장
+	public int insertGuest(GuestbookVo guestbookVo) {
+		System.out.println("GuestbookDao>insertGuest()");
+		
+		System.out.println("xml실행 전->" + guestbookVo);
+		
+		int count =  sqlSession.insert("guestbook.insertSelectKey", guestbookVo);
+		System.out.println("xml실행 후->" + guestbookVo);
+		
+		return count;
+	}
+	
+	
+	//방명록 저장후 등록한 데이터 가져오기(ajax활용)
+	public GuestbookVo getGuest(int no) {
+		System.out.println("GuestbookDao>getGuest()");
+		
+		GuestbookVo guestbookVo = sqlSession.selectOne("guestbook.getGuest", no);
+		
+		return guestbookVo;
+	}
 
 }

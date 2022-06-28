@@ -1,11 +1,16 @@
 package com.javaex.api.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.javaex.service.GuestbookService;
+import com.javaex.vo.GuestbookVo;
 
 @Controller
 public class ApiGuestbookController {
@@ -14,6 +19,8 @@ public class ApiGuestbookController {
 	private GuestbookService guestbookService;
 	
 	
+	
+	//방명록add (등록폼+리스트(data-ajax))
 	@RequestMapping(value="/api/guestbook/addList", method = {RequestMethod.GET, RequestMethod.POST})
 	public String addList() {
 		System.out.println("ApiGuestbookController>addList()");
@@ -22,13 +29,31 @@ public class ApiGuestbookController {
 	}
 	
 	
-	//방명록 리스트 데이터만 보내줘~
-	@RequestMapping(value="/api/guestbook/list", method= {RequestMethod.GET, RequestMethod.POST})
-	public String list() {
-		System.out.println("ApiGuestbookController>list()");
-		guestbookService.getGuestList();
+	//방명록 저장
+	@ResponseBody
+	@RequestMapping(value="/api/guestbook/add", method = {RequestMethod.GET, RequestMethod.POST})
+	public GuestbookVo add(@ModelAttribute GuestbookVo guestbookVo) {
+		System.out.println("ApiGuestbookController>add()");
 		
-		return "";
+		GuestbookVo gVo = guestbookService.addGuest(guestbookVo);
+		System.out.println(gVo);
+		
+		return gVo;
+	}
+	
+	
+	
+	
+	
+	//방명록 리스트 데이터만 보내줘~
+	@ResponseBody
+	@RequestMapping(value="/api/guestbook/list", method= {RequestMethod.GET, RequestMethod.POST})
+	public List <GuestbookVo> list() {
+		System.out.println("ApiGuestbookController>list()");
+		List <GuestbookVo> guestbookList = guestbookService.getGuestList();
+		System.out.println(guestbookList);
+		
+		return guestbookList;
 	}
 	
 	
