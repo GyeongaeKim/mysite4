@@ -40,4 +40,16 @@ public class GuestbookService {
 		return guestbookDao.guestDelete(guestbookVo);
 	}
 	
+	
+	
+	
+	
+	
+	//ajax활용 - 전체리스트 가져오기
+	public List<GuestbookVo> getGuestList() {
+		System.out.println("GuestbookService>getGuestList()");
+		List<GuestbookVo> getGuestList =  guestbookDao.selectList();
+		return getGuestList;
+	}
+	
 }
