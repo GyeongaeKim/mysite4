@@ -91,11 +91,8 @@
 
 		<!-- //footer -->
 		<c:import url="/WEB-INF/views/includes/footer.jsp"></c:import>
-		
 	</div>
 	<!-- //wrap -->
-
-
 
 
 <!-- 모달창 **************************************************************-->
@@ -113,15 +110,12 @@
       	<!-- 비밀번호 입력폼 -->
       	비밀번호<input type="text" name="password" value="">
       	<br><input type="text" name="no" value="">
-      	
-      	
-      	
-      	
-      	
+  
+  
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+        <button id="btnModalDel" type="button" class="btn btn-primary">삭제</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -129,15 +123,6 @@
 
 
 <!-- 모달창 **************************************************************-->
-
-
-
-
-
-
-
-
-
 
 
 </body>
@@ -196,11 +181,9 @@ $("#btnSubmit").on("click", function(){
 });
 
 
-
-
-//삭제버튼을 눌렀을때 -> 삭제버튼은 listArea안에 들어있다는 것을 잊지말자..!
+//리스트의 삭제버튼을 눌렀을때 -> 삭제버튼은 listArea안에 들어있다는 것을 잊지말자..!
 $("#listArea").on("click", ".btnDel", function(){
-	console.log("삭제버튼 클릭");
+	console.log("리스트>삭제버튼 클릭");
 	
 	//삭제버튼의 no값 꺼내오기
 	var $this = $(this);
@@ -208,26 +191,68 @@ $("#listArea").on("click", ".btnDel", function(){
 	//console.log(no);
 	
 	
-	//모달창의 비밀번호는 비우기
-	$("[name=password]").val("");
+	//모달창의 비밀번호만 비우기
+	$("#delModal [name=password]").val("");
 	//꺼낸 no를 모달창의 폼에서 no값 넣는 곳에 넣어주기
 	$("[name=no]").val(no);
 	
 	
-	
-	
 	//모달창 띄우기
 	$("#delModal").modal("show");
-	
+
 });
 
 
+//모달창의 삭제버튼 클릭할때
+$("#btnModalDel").on("click", function(){
+	console.log("모달>삭제버튼 클릭")
+	
+	//삭제할 데이터 모으기
+	var password = $("#delModal [name=password]").val();
+	var no = $("#delModal [name=no]").val();
+	
+	//모은 데이터는 vo로 묶어주기(2가지 방법 중 하나 골라서 하면 됨)
+	var guestbookVo = {
+		password: password,
+		no: no
+	};
+	/*
+	var guestbookVo = {};
+	guestbookVo.password = password;
+	guestbookVo.no = no;
+	*/
+	console.log(guestbookVo);
+	
+	
+	//서버로 데이터 전송(ajax)
+	$.ajax({
+		
+		url : "${pageContext.request.contextPath }/api/guestbook/remove",		
+		type : "post",
+		//contentType : "application/json",
+		data : guestbookVo,	//위에서 vo로 묶은 데이터는 여기에~
 
-
-
-
-
-
+		dataType : "json",
+		success : function(result){
+			/*성공시 처리해야될 코드 작성*/
+			console.log(result);
+			
+			//성공인지, 아닌지~
+			if(result == "success"){
+				//성공하면(비밀번호가 일치하면), 데이터 삭제하기
+				$("#t"+no).remove();	//아래의 render에서 table의 id를 t28 이런식으로 적용하였다**
+				//삭제 완료되면, 모달창 닫기
+				$("#delModal").modal("hide");
+			}else{
+				$("#delModal").modal("hide");
+				alert("비밀번호를 확인하세요");
+			}
+		},
+		error : function(XHR, status, error) {
+			console.error(status + " : " + error);
+		}
+	});
+});
 
 
 //리스트 요청
@@ -257,13 +282,14 @@ function fetchList(){
 	});
 };
 
+
 //리스트 그리기
 function render(guestbookVo, opt){	//opt 옵션을 추가한다.
 	console.log("render()");
 	//var name = guestbookVo.name;
 	
 	var str = '';
-	str += '<table class="guestRead">';
+	str += '<table id="t'+guestbookVo.no+'" class="guestRead">';
 	str += '	<colgroup>';
 	str += '		<col style="width: 10%;">';
 	str += '		<col style="width: 40%;">';
@@ -292,9 +318,5 @@ function render(guestbookVo, opt){	//opt 옵션을 추가한다.
 }
 
 
-
-
-
 </script>
-
 </html>

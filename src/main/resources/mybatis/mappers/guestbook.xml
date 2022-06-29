@@ -13,9 +13,6 @@
 	</resultMap>
 	
 	
-	
-	
-	
 	<!-- 방명록 리스트 gusetList -->
 	<select id="guestList" resultMap="resultMapGuestbookVo">
 		<![CDATA[
@@ -28,7 +25,6 @@
 			order by reg_date desc
 		]]>
 	</select>
-	
 		
 	<!-- 방명록 등록 guestInsert -->
 	<insert id="guestInsert" parameterType="GuestbookVo">
@@ -37,7 +33,6 @@
 			values (seq_guestbook_no.nextval, #{name}, #{password}, #{content}, sysdate)
 		]]>
 	</insert>
-	
 	
 	<!-- 삭제 guestDelete -->
 	<delete id="guestDelete" parameterType="GuestbookVo">
@@ -52,10 +47,7 @@
 	
 	
 	
-	
-	
-	
-	<!-- 방명록 리스트 gusetList / ajax -->
+	<!-- ajax  // 방명록 리스트 gusetList / -->
 	<select id="selectList" resultType="com.javaex.vo.GuestbookVo">
 		<![CDATA[
 			select  no,
@@ -68,8 +60,7 @@
 		]]>
 	</select>
 	
-	
-	<!-- 방명록 등록 guestInsert / ajax -->
+	<!-- ajax  // 방명록 등록 guestInsert /  -->
 	<insert id="insertSelectKey" parameterType="GuestbookVo">
 		
 		<selectKey keyProperty="no" resultType="int" order="BEFORE">	
@@ -81,13 +72,9 @@
 			insert into guestbook
 			values (#{no}, #{name}, #{password}, #{content}, sysdate)
 		]]>
-		
 	</insert>
 	
-	
-	
-	
-	<!-- 방명록 저장후 등록한 데이터 가져오기 -->
+	<!-- ajax  // 방명록 저장후 등록한 데이터 가져오기 -->
 	<select id="getGuest" parameterType="int" resultType="com.javaex.vo.GuestbookVo">
 		<![CDATA[
 			select  no, 
@@ -98,12 +85,16 @@
 			from guestbook
 			where no = #{no}
 		]]>
-	
-	
-	
-	
 	</select>
 	
 	
+	<!-- ajax  // 방명록 삭제 deleteGuest /  -->
+	<delete id="deleteGuest" parameterType="com.javaex.vo.GuestbookVo">
+		<![CDATA[
+			delete from guestbook
+			where no = #{no}
+				and password = #{password}
+		]]>
+	</delete>
 
 </mapper>

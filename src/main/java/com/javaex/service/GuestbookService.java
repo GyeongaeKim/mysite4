@@ -26,13 +26,11 @@ public class GuestbookService {
 		return guestList;
 	}
 	
-	
 	//2. 방명록 추가 insert
 	public int guestInsert(GuestbookVo guestbookVo) {
 		System.out.println("GuestbookService>guestInsert()");
 		return guestbookDao.guestInsert(guestbookVo);
 	}
-	
 	
 	//3. 삭제 delete
 	public int guestDelete(GuestbookVo guestbookVo) {
@@ -52,7 +50,6 @@ public class GuestbookService {
 		return getGuestList;
 	}
 	
-	
 	//ajax활용 - 방명록 저장
 	public GuestbookVo addGuest(GuestbookVo guestbookVo) {
 		System.out.println("GuestbookService>getGuestList()");
@@ -68,5 +65,27 @@ public class GuestbookService {
 		
 		return gVo;
 	}
+	
+	//ajax활용 - 방명록 삭제
+	public String removeGuest(GuestbookVo guestbookVo) {
+		System.out.println("GuestbookService>removeGuest()");
+		
+		String state;
+		int count = guestbookDao.deleteGuest(guestbookVo);
+		
+		if(count>0) {
+			state = "success";
+		}else {
+			state = "fail";
+		}
+		
+		return state;
+	}
+	
+	
+	
+	
+	
+	
 	
 }

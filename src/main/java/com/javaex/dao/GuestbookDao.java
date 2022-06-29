@@ -37,6 +37,12 @@ public class GuestbookDao {
 	
 	
 	
+	
+	
+	
+	
+	
+	
 	//ajax활용 - 전체리스트 가져오기
 	public List<GuestbookVo> selectList() {
 		System.out.println("GuestbookDao>selectList()");
@@ -65,5 +71,25 @@ public class GuestbookDao {
 		
 		return guestbookVo;
 	}
-
+	
+	
+	
+	//ajax활용 - 방명록 삭제
+	public int deleteGuest(GuestbookVo guestbookVo) {
+		System.out.println("GuestbookDao>deleteGuest()");
+		return sqlSession.delete("guestbook.deleteGuest", guestbookVo);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
