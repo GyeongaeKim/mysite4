@@ -10,9 +10,13 @@
 <!-- CSS -->
 <link href="${pageContext.request.contextPath}/assets/css/mysite.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/assets/css/guestbook.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/assets/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
 
 <!-- jquery -->
 <script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/jquery/jquery-1.12.4.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/assets/bootstrap/js/bootstrap.js"></script>
+
+
 
 </head>
 <body>
@@ -69,8 +73,8 @@
 								</tr>
 							</tbody>
 						</table>
-					<!-- </form>	 -->
 					<br>
+					<!-- </form>	 -->
 					
 					
 					<!-- 리스트 영역 -->
@@ -90,6 +94,51 @@
 		
 	</div>
 	<!-- //wrap -->
+
+
+
+
+<!-- 모달창 **************************************************************-->
+<!-- 삭제모달창 -->
+<div id="delModal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">비밀번호를 입력하세요</h4>
+      </div>
+      <div class="modal-body">
+      
+      	<!-- <p>One fine body&hellip;</p> -->
+      	<!-- 비밀번호 입력폼 -->
+      	비밀번호<input type="text" name="password" value="">
+      	<br><input type="text" name="no" value="">
+      	
+      	
+      	
+      	
+      	
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<!-- 모달창 **************************************************************-->
+
+
+
+
+
+
+
+
+
+
 
 </body>
 
@@ -147,6 +196,40 @@ $("#btnSubmit").on("click", function(){
 });
 
 
+
+
+//삭제버튼을 눌렀을때 -> 삭제버튼은 listArea안에 들어있다는 것을 잊지말자..!
+$("#listArea").on("click", ".btnDel", function(){
+	console.log("삭제버튼 클릭");
+	
+	//삭제버튼의 no값 꺼내오기
+	var $this = $(this);
+	var no = $this.data("no");	//data-no라고 썼으니까..
+	//console.log(no);
+	
+	
+	//모달창의 비밀번호는 비우기
+	$("[name=password]").val("");
+	//꺼낸 no를 모달창의 폼에서 no값 넣는 곳에 넣어주기
+	$("[name=no]").val(no);
+	
+	
+	
+	
+	//모달창 띄우기
+	$("#delModal").modal("show");
+	
+});
+
+
+
+
+
+
+
+
+
+
 //리스트 요청
 function fetchList(){
 	$.ajax({
@@ -191,7 +274,7 @@ function render(guestbookVo, opt){	//opt 옵션을 추가한다.
 	str += '		<td>'+guestbookVo.no+'</td>';
 	str += '		<td>'+guestbookVo.name+'</td>';
 	str += '		<td>'+guestbookVo.regDate+'</td>';
-	str += '		<td><a href="">[삭제]</a></td>';
+	str += '		<td><button class="btnDel" type="button" data-no="' +guestbookVo.no+ '" data-age="">삭제</button></td>';	//data는 여러개 설정가능
 	str += '	</tr>';
 	str += '	<tr>';
 	str += '		<td colspan=4 class="text-left">'+guestbookVo.content+'</td>';
@@ -206,10 +289,10 @@ function render(guestbookVo, opt){	//opt 옵션을 추가한다.
 	}else{
 		console.log("opt오류");
 	}
-	
-	
-	
 }
+
+
+
 
 
 </script>
