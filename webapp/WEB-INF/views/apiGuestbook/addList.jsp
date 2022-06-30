@@ -136,7 +136,75 @@ $(document).ready(function(){
 });
 
 
-/* 저장버튼(등록버튼)을 클릭했을때 */
+
+
+/* 저장버튼(등록버튼)을 클릭했을때2 */
+//jquery요청(json)
+$("#btnSubmit").on("click", function(){
+	console.log("저장버튼 클릭");
+	
+	//데이터 수집
+	var name = $("[name=name]").val();
+	var password = $("[name=password]").val();
+	var content = $("[name=content]").val();
+	
+	var guestVo = {
+		name: name, 
+		password: password, 
+		content: content
+	};
+	
+	
+	console.log(guestVo);
+	
+	
+	
+	$.ajax({
+		
+		url : "${pageContext.request.contextPath }/api/guestbook/add2",		
+		type : "post",
+		contentType : "application/json",
+		data : JSON.stringify(guestVo),		//js객체를 JSON문자열로 변경->그래야 controller에서 @RequestBody로 받을 수 있음
+
+		dataType : "json",
+		success : function(gVo){
+			//성공시 처리해야될 코드 작성
+			console.log(gVo);
+			
+			//1개의 데이터 리스트에 추가(그리기)
+			render(gVo, "up");
+			
+			
+			//데이터 저장후, 입력폼에 있는 내용 사라지게 하기.
+			$("[name=name]").val("");
+			$("[name=password]").val("");
+			$("[name=content]").val("");
+			
+		},
+		error : function(XHR, status, error) {
+			console.error(status + " : " + error);
+		}
+	});
+
+	
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 저장버튼(등록버튼)을 클릭했을때1 */
+/* 기존방식-jquery요청(파라미터로 전송)
 $("#btnSubmit").on("click", function(){
 	console.log("저장버튼 클릭");
 	
@@ -161,7 +229,7 @@ $("#btnSubmit").on("click", function(){
 
 		dataType : "json",
 		success : function(gVo){
-			/*성공시 처리해야될 코드 작성*/
+			//성공시 처리해야될 코드 작성
 			console.log(gVo);
 			
 			//1개의 데이터 리스트에 추가(그리기)
@@ -179,7 +247,7 @@ $("#btnSubmit").on("click", function(){
 		}
 	});
 });
-
+*/
 
 //리스트의 삭제버튼을 눌렀을때 -> 삭제버튼은 listArea안에 들어있다는 것을 잊지말자..!
 $("#listArea").on("click", ".btnDel", function(){
