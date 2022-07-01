@@ -15,7 +15,7 @@
 	<div id="wrap">
 
 		<!-- //header -->
-		<c:import url="/WEB-INF/views/includes/header_nav.jsp"></c:import>
+		<c:import url="/WEB-INF/views/includes/header.jsp"></c:import>
 		
 		<div id="container" class="clearfix">
 			<!-- aside 없음 -->

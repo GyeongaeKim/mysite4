@@ -16,17 +16,12 @@
 	<div id="wrap">
 
 		<!-- //header -->
-		<c:import url="/WEB-INF/views/includes/header_nav.jsp"></c:import>
+		<c:import url="/WEB-INF/views/includes/header.jsp"></c:import>
 	
 		<div id="container" class="clearfix">
-			<div id="aside">
-				<h2>방명록</h2>
-				<ul>
-					<li>일반방명록</li>
-					<li>ajax방명록</li>
-				</ul>
-			</div>
-			<!-- //aside -->
+			<!-- 게시판 aside -->
+			<c:import url="/WEB-INF/views/includes/boardAside.jsp"></c:import>
+			<!-- //게시판 aside -->
 
 			<div id="content">
 				
