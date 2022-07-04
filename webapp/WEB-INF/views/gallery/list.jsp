@@ -142,9 +142,9 @@
 			<form method="" action="">
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-					<%-- <c:if test="${authUser.no==galleryVo.userNo }"> --%>
+					<c:if test="${galleryVo.userNo == authUser.no }">
 						<button type="button" class="btn btn-danger" id="btnDel">삭제</button>
-					<%-- </c:if> --%>
+					</c:if>
 				</div>
 			</form>
 			
@@ -187,7 +187,13 @@ $("#viewArea").on("click", ".view", function(){
 
 //이미지-모달창의 삭제버튼 클릭할때
 $("#btnDel").on("click", function(){
-	console.log("모달>삭제버튼 클릭")
+	console.log("모달>삭제버튼 클릭");
+	
+	//삭제버튼의 no값 꺼내오기
+	var $this = $(this);
+	var no = $this.data("no");
+	//console.log(no);
+	
 });
 
 
