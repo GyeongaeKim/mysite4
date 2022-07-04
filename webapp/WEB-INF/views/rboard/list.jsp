@@ -60,7 +60,16 @@
 							<c:forEach items="${rBoardList}" var="rBoardVo">
 								<tr>
 									<td>${rBoardVo.no }</td>
-									<td class="text-left"><a href="${pageContext.request.contextPath }/rboard/read?no=${rBoardVo.no}">${rBoardVo.title }</a></td>
+									
+									<c:choose> 
+									    <c:when test="${rBoardVo.depth == 1 }">
+									    	<td class="text-left"><span style="color: #fb0101;">[댓글]&nbsp;</span><a href="${pageContext.request.contextPath }/rboard/read?no=${rBoardVo.no}">${rBoardVo.title }</a></td>
+									    </c:when>
+									    <c:otherwise>
+									    	<td class="text-left"></span><a href="${pageContext.request.contextPath }/rboard/read?no=${rBoardVo.no}">${rBoardVo.title }</a></td>
+									    </c:otherwise>
+									</c:choose>
+										
 									<td>${rBoardVo.userName }</td>
 									<td>${rBoardVo.hit }</td>
 									<td>${rBoardVo.regDate }</td>

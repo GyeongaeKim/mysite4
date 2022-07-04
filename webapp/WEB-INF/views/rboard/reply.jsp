@@ -41,6 +41,8 @@
 				<div id="board">
 					<div id="replyForm">
 						<form action="/mysite4/rboard/replyInsert" method="get">
+							
+							<input type="text" name="groupNo" value="${param.no }">
 							<!-- 제목 -->
 							<div class="form-group">
 								<label class="form-text" for="txt-title">댓글제목</label>

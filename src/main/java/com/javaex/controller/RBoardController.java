@@ -110,4 +110,37 @@ public class RBoardController {
 		return "redirect:/rboard/list";
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//8. 댓글폼
+	@RequestMapping(value="/rboard/reply", method = {RequestMethod.GET, RequestMethod.POST})
+	public String reply(@ModelAttribute RBoardVo rBoardVo, @RequestParam("no") int no) {
+		System.out.println("RBoardController>writeForm()");
+		
+		rBoardVo.setGroupNo(no);
+		
+		return "rboard/reply";
+	}
+	
+	//9. 댓글 insert
+	@RequestMapping(value="/rboard/replyInsert", method = {RequestMethod.GET, RequestMethod.POST})
+	public String replyInsert(@ModelAttribute RBoardVo rBoardVo, HttpSession session) {
+		System.out.println("RBoardController>replyInsert()");
+		
+		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		int userNo = authUser.getNo();
+		rBoardVo.setUserNo(userNo);
+		
+		rBoardService.replyInsert(rBoardVo);
+		return "redirect:/rboard/list";
+	}
+	
+	
 }

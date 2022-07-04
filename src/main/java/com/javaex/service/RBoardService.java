@@ -26,9 +26,9 @@ public class RBoardService {
 	
 	
 	
-	//2. 글쓰기 insert + groupNo설정
+	//2. 글쓰기 insert 
 	public int boardInsert(RBoardVo rBoardVo) {
-		System.out.println("RBoardService>rBoardInsert()");
+		System.out.println("RBoardService>boardInsert()");
 		return rBoardDao.boardInsert(rBoardVo);
 	}
 	
@@ -70,5 +70,19 @@ public class RBoardService {
 		System.out.println("RBoardService>boardDelete()");
 		return rBoardDao.boardDelete(no);
 	}
+	
+	
+	
+	
+	
+	//7. 댓글쓰기 
+	public int replyInsert(RBoardVo rBoardVo) {
+		System.out.println("RBoardService>replyInsert()");
+		return rBoardDao.replyInsert(rBoardVo);
+	}
+	
+	
+	
+	
 	
 }

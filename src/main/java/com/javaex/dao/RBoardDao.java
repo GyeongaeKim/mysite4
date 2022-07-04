@@ -79,4 +79,16 @@ public class RBoardDao {
 	
 	
 	
+	
+	
+	
+	//8. 댓글쓰기 insert
+	public int replyInsert(RBoardVo rBoardVo) {
+		System.out.println("RBoardDao>replyInsert()");
+		return sqlSession.insert("rboard.replyInsert", rBoardVo);
+	}
+	
+	
+	
+	
 }

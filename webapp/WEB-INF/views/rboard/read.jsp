@@ -77,8 +77,13 @@
 									<a id="btn_modify" href="/mysite4/rboard/modifyForm?no=${rboardMap.NO }">수정</a>
 								</c:when>
 							</c:choose>
+							<c:choose>
+								<c:when test="${!empty authUser && rboardMap.DEPTH==0 }">
+									<a id="btn_modify" href="/mysite4/rboard/reply?no=${rboardMap.NO }">댓글달기</a>
+								</c:when>
+							</c:choose>
 							<a id="btn_modify" href="/mysite4/rboard/list">목록</a>
-							<a id="btn_modify" href="/mysite4/rboard/reply">댓글달기</a>
+							
 						</form>	
 						
 					</div>

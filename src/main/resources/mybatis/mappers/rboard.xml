@@ -26,6 +26,7 @@
 			        r.content,
 			        r.hit,
 			        r.reg_date regDate,
+			        r.depth,
 			        u.name userName
 			from rboard r, users u
 			where r.user_no = u.no
@@ -35,7 +36,7 @@
 			and title like '%'||#{keyword}||'%'   
 		</if>
 		<![CDATA[	
-			order by no desc, r.group_no DESC, r.order_no ASC
+			order by r.group_no DESC, r.order_no ASC, r.no ASC
 		]]>
 	</select>
 	
@@ -71,6 +72,7 @@
 			      	to_char(reg_date,'YY-MM-DD HH24:MM') regDate,
 			        title,
 			        content,
+			        depth,
 			        user_no userNo
 			from rboard r, users u
 			where r.user_no=u.no
@@ -126,6 +128,15 @@
 	
 	
 	
+	
+	
+	<!-- 댓글 등록 replyInsert -->
+	<insert id="replyInsert" parameterType="RBoardVo">
+		<![CDATA[
+			insert into rboard
+			values(seq_rboard_no.nextval, #{userNo}, #{title}, #{content}, 0, sysdate, #{groupNo}, seq_rboard_orderno.nextval, 1)
+		]]>	
+	</insert>
 	
 	
 	
