@@ -1,5 +1,6 @@
 package com.javaex.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,38 @@ public class BoardDao {
 	
 	@Autowired
 	private SqlSession sqlSession;
+	
+	
+	//리스트4
+	public List<BoardVo> selectList4(int startRnum, int endRnum){
+		System.out.println("BoardDao>selectList4()");
+		
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("startRnum", startRnum);
+		map.put("endRnum", endRnum);
+		
+		System.out.println(map);
+		List<BoardVo> boardList = sqlSession.selectList("board.selectList4", map);
+		
+		return boardList;
+	}
+	
+	
+	
+	
+	
+	//전체글 갯수(페이징)
+	public int selectTotalCnt() {
+		System.out.println("BoardDao>selectTotalCnt()");
+		
+		int totalCnt = sqlSession.selectOne("board.selectTotalCnt");
+		
+		return totalCnt;
+	}
+	
+	
+	
+	
 	
 	//1. 게시판 리스트 list
 	public List<BoardVo> boardList(String keyword){

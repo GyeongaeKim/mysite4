@@ -24,8 +24,34 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 	
-	//생성자
-	//메소드gs
+	
+	
+	//리스트(일반)
+	@RequestMapping(value="/board/list4", method = {RequestMethod.GET, RequestMethod.POST})
+	public String list4(Model model,	//*defaultValue->값이 없을때 대체할 값 
+					@RequestParam(value="crtPage", required=false, defaultValue="1") 
+					int crtPage) {
+		System.out.println("BoardController>list4()");
+		
+		Map<String, Object> pMap = boardService.getBoardList4(crtPage);
+		model.addAttribute("pMap", pMap);
+		
+		return "board/list4";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	//메소드 일반
 	//1. 게시판 리스트 list
