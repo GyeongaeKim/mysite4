@@ -49,15 +49,19 @@
 			where rn>=#{startRnum}
 			and rn<=#{endRnum}
 		]]>
+		<if test="value != ''  and  value != null ">  
+			and title like '%'||#{value}||'%'   
+		</if>
 	</select>
 	
 	
 	<!-- 전체글갯수 구하기(페이징) -->
-	<select id="selectTotalCnt" resultType="int">
+	<select id="selectTotalCnt" parameterType="String" resultType="int">
 		<![CDATA[
 			select count(*) count
 			from board b, users u
 			where b.user_no = u.no
+			and title like '%'||#{value}||'%'   
 		]]>
 	</select>
 	

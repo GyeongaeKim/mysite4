@@ -18,12 +18,13 @@ public class BoardDao {
 	
 	
 	//리스트4
-	public List<BoardVo> selectList4(int startRnum, int endRnum){
+	public List<BoardVo> selectList4(int startRnum, int endRnum, String keyword){
 		System.out.println("BoardDao>selectList4()");
 		
-		Map<String, Integer> map = new HashMap<String, Integer>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("startRnum", startRnum);
 		map.put("endRnum", endRnum);
+		map.put("keyword", keyword);
 		
 		System.out.println(map);
 		List<BoardVo> boardList = sqlSession.selectList("board.selectList4", map);
@@ -36,12 +37,10 @@ public class BoardDao {
 	
 	
 	//전체글 갯수(페이징)
-	public int selectTotalCnt() {
+	public int selectTotalCnt(String keyword) {
 		System.out.println("BoardDao>selectTotalCnt()");
 		
-		int totalCnt = sqlSession.selectOne("board.selectTotalCnt");
-		
-		return totalCnt;
+		return sqlSession.selectOne("board.selectTotalCnt", keyword);
 	}
 	
 	

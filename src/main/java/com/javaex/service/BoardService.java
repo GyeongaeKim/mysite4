@@ -18,7 +18,7 @@ public class BoardService {
 	private BoardDao boardDao;
 	
 	//리스트4(일반)
-	public Map<String, Object> getBoardList4(int crtPage){
+	public Map<String, Object> getBoardList4(int crtPage, String keyword){
 		System.out.println("BoardService>getBoardList4()");
 		
 		//리스트 가져오기/////////////////////////////////////////////////////////
@@ -39,7 +39,7 @@ public class BoardService {
 		System.out.println(endRnum);
 		
 		
-		List<BoardVo> boardList = boardDao.selectList4(startRnum, endRnum);
+		List<BoardVo> boardList = boardDao.selectList4(startRnum, endRnum, keyword);
 		
 		
 		
@@ -47,7 +47,7 @@ public class BoardService {
 		
 		//페이징 계산/////////////////////////////////////////////////////////
 		//전체글갯수
-		int totalCnt = boardDao.selectTotalCnt();
+		int totalCnt = boardDao.selectTotalCnt(keyword);
 		System.out.println(totalCnt);
 		
 		//페이지당 버튼 갯수
@@ -92,6 +92,8 @@ public class BoardService {
 		pMap.put("startPageBtnNo", startPageBtnNo);
 		pMap.put("endPageBtnNo", endPageBtnNo);
 		pMap.put("next", next);
+		
+		pMap.put("keyword", keyword);
 		
 		System.out.println(pMap);
 		

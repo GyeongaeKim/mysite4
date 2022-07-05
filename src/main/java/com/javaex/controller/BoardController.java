@@ -29,11 +29,10 @@ public class BoardController {
 	//리스트(일반)
 	@RequestMapping(value="/board/list4", method = {RequestMethod.GET, RequestMethod.POST})
 	public String list4(Model model,	//*defaultValue->값이 없을때 대체할 값 
-					@RequestParam(value="crtPage", required=false, defaultValue="1") 
-					int crtPage) {
+					@RequestParam(value="crtPage", required=false, defaultValue="1") int crtPage, 
+					@RequestParam(value="keyword", required=false, defaultValue="") String keyword) {
 		System.out.println("BoardController>list4()");
-		
-		Map<String, Object> pMap = boardService.getBoardList4(crtPage);
+		Map<String, Object> pMap = boardService.getBoardList4(crtPage, keyword);
 		model.addAttribute("pMap", pMap);
 		
 		return "board/list4";
