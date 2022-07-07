@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,64 +21,58 @@ public class GalleryService {
 	@Autowired
 	private GalleryDao galleryDao;
 	
-	public List<GalleryVo> galleryList(){
-		System.out.println("GalleryService>galleryList()");
-		return galleryDao.galleryList();
+	public List<Map<String, Object>> getList(){
+		List<Map<String, Object>> gList = galleryDao.getList();
+		return gList;
 	}
 	
 	
 	
 	
-	public int saveImg(MultipartFile file, GalleryVo galleryVo) {
-		System.out.println("GalleryService>saveImg()");
+	public int upload(MultipartFile file, GalleryVo gVo) {
 		
-		String saveDir = "c:\\javaStudy\\upload";
-		
-		//1.파일 정보(db저장) 추출 저장
-		//1-오리지날 파일명
 		String orgName = file.getOriginalFilename();
+		gVo.setOrgName(orgName);
 		
-		//2-확장자
-		String exName = orgName.substring(orgName.lastIndexOf("."));	//확장자명 확인
-		//System.out.println(exName);
+		String exName = orgName.substring(orgName.lastIndexOf("."));
+		long rand1 = System.currentTimeMillis();
+		String rand2 = UUID.randomUUID().toString();
+		String saveName = rand1 + rand2 + exName;
+		gVo.setSaveName(saveName);
 		
-		//3-저장파일명(+확장자명)
-		String saveName = System.currentTimeMillis() + UUID.randomUUID().toString() + exName;
-		
-		//4-파일경로(디렉토리+저장파일명)
+		String saveDir = "\\C:\\javastudy\\upload";
 		String filePath = saveDir + "\\" + saveName;
+		gVo.setFilePath(filePath);
 		
-		//5-파일사이즈
 		long fileSize = file.getSize();
-				
-				
+		gVo.setFileSize(fileSize);
 		
-		//***필요한 정보들을 Vo로 묶기
-		galleryVo.setOrgName(orgName);
-		galleryVo.setSaveName(saveName);
-		galleryVo.setFilePath(filePath);
-		galleryVo.setFileSize(fileSize);
+		System.out.println(gVo);
+		int count = galleryDao.add(gVo);
 		
-		System.out.println(galleryVo);
-		
-		
-		
-		//*.파일저장-하드디스크에 저장
-		try {
-			byte[] fileData = file.getBytes();
-			
-			OutputStream os = new FileOutputStream(filePath);
-			BufferedOutputStream bos = new BufferedOutputStream(os);
-			
-			bos.write(fileData);
-			bos.close();
-		} catch (IOException e) {
-			e.printStackTrace();
+		if(count > 0) {
+			try {
+				byte[] fileData = file.getBytes();
+				OutputStream os = new FileOutputStream(filePath);
+				BufferedOutputStream bos = new BufferedOutputStream(os);
+				bos.write(fileData);
+				bos.close();
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
 		}
 		
-		
-		
-		return galleryDao.saveImg(galleryVo);
+		return count;
+	}
+	
+	public GalleryVo getGallery(int no) {
+		GalleryVo gVo = galleryDao.getGallery(no);
+		return gVo;
+	}
+	
+	public int delete(int no) {
+		int count = galleryDao.delete(no);
+		return count;
 	}
 	
 	

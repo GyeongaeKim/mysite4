@@ -57,11 +57,11 @@
 					<ul id="viewArea">
 						
 						<!-- 이미지반복영역 -->
-						<c:forEach items="${requestScope.galleryList}" var="galleryVo" varStatus="status">
-							<li>
+						<c:forEach items="${requestScope.galleryList}" var="gMap" varStatus="status">
+							<li id="${gMap.NO }">
 								<div class="view" >
-									<img class="imgItem" src="">
-									<div class="imgWriter">작성자: <strong>${authUser.name}</strong></div>
+									<img class="imgItem" src="${pageContext.request.contextPath }/gallery/upload/${gMap.SAVENAME}" data-user_no="${gMap.USERNO}" data-no="${gMap.NO}" >
+									<div class="imgWriter">작성자: <strong>${gMap.name}</strong></div>
 								</div>
 							</li>
 						</c:forEach>
@@ -86,117 +86,131 @@
 	
 <!-- 모달창 **************************************************************-->		
 <!-- 이미지등록 팝업(모달)창 -->
-<div class="modal fade" id="addModal">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
+	<div class="modal fade" id="addModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">이미지등록</h4>
+				</div>
 				
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title">이미지등록</h4>
+				<form action="${pageContext.request.contextPath }/gallery/upload" method="post" enctype="multipart/form-data">
+					<div class="modal-body">
+						<div class="form-group">
+							<label class="form-text">글작성</label>
+							<input id="addModalContent" type="text" name="content" value="" >
+						</div>
+						<div class="form-group">
+							<label class="form-text">이미지선택</label>
+							<input id="file" type="file" name="file" value="" >
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn" id="btnUpload">등록</button>
+					</div>
+				</form>
 				
-			</div>
-			
-			<form action="${pageContext.request.contextPath }/gallery/addImg" method="post" enctype="multipart/form-data">
+				
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+	
+
+
+	<!-- 이미지보기 팝업(모달)창 -->
+	<div class="modal fade" id="viewModal">
+		<div class="modal-dialog" >
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">이미지보기</h4>
+				</div>
 				<div class="modal-body">
-					<div class="form-group">
-						<label class="form-text">글작성</label>
-						<input id="addModalUserNo" type="text" name="userNo" value="${authUser.no}" >
-						<input id="addModalContent" type="text" name="content" value="" >
+					
+					<div class="formgroup" >
+						<img id="viewModelImg" width="300px" src =""> <!-- ajax로 처리 : 이미지출력 위치-->
 					</div>
-					<div class="form-group">
-						<label class="form-text">이미지선택</label>
-						<input id="file" type="file" name="file" value="" >
+					
+					<div class="formgroup">
+						<p id="viewModelContent"></p>
 					</div>
+					
 				</div>
-				<div class="modal-footer">
-					<button type="submit" class="btn" id="btnUpload">등록</button>
-				</div>
-			</form>
-			
-			
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
-
-
-<!-- 이미지보기 팝업(모달)창 -->
-<div class="modal fade" id="viewModal">
-	<div class="modal-dialog" >
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title">이미지보기</h4>
-			</div>
-			<div class="modal-body">
-				
-				<div class="formgroup" >
-					<img id="viewModelImg" src =""> <!-- ajax로 처리 : 이미지출력 위치-->
-				</div>
-				
-				<div class="formgroup">
-					<p id="viewModelContent"></p>
-				</div>
-				
-			</div>
-			<form method="" action="">
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-					<c:if test="${galleryVo.userNo == authUser.no }">
+				<form id="deleteForm" action="${pageContext.request.contextPath }/gallery/delete" method="post">
+					<div class="modal-footer">
+						<input type="hidden" id="viewModelNo" name="no" value="">
 						<button type="button" class="btn btn-danger" id="btnDel">삭제</button>
-					</c:if>
-				</div>
-			</form>
-			
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal-dialog -->
-</div><!-- /.modal -->	
+						<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+					</div>
+				</form>
+				
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->	
 <!-- 모달창 **************************************************************-->
 
 </body>
 
 <script type="text/javascript">
-
-//이미지올리기 버튼 눌렀을 때
-$("#btnImgUpload").on("click", function(){
-	console.log("이미지올리기 버튼");
 	
+	$("#btnImgUpload").on("click", function(){
+		$("#addModal").modal("show");
+	});
 	
-	//모달창의 내용 비우기
-	$("#addModal [name=content]").val("");
-	$("#addModal [name=file]").val("");
+	$("#viewArea").on("click", ".imgItem", function(){
+		var $this = $(this);
+		var no = $this.data("no");
+		var userNo = $this.data("user_no");
+		console.log(userNo);
+		
+		var authNo = parseInt('${authUser.no}');
+		console.log(authNo);
+		var delStr = '';
+		
+		$.ajax({
+			url: "${pageContext.request.contextPath}/getGallery",
+			type: "post",
+			contentType : "application/json",
+			data: JSON.stringify(no),
+			dataType: "json",
+			success: function(gVo){
+				$("#viewModelImg").attr("src", "${pageContext.request.contextPath }/gallery/upload/" + gVo.saveName);
+				$("#viewModelContent").html(gVo.content);
+				$("#viewModelNo").val(gVo.no);
+				if(authNo == userNo) {
+					$("#btnDel").show();
+				}else {
+					$("#btnDel").hide();
+				}
+				$("#viewModal").modal("show");
+			},
+			error : function(XHR, status, error) {
+				console.error(status + " : " + error);
+			}
+		});
+	});
 	
-	//유저정보를 모달창의 폼에서 userNo 넣은 곳에 넣어주기
-	//$("[name=userNo]").val(userNo);
+	$("#btnDel").on("click", function(){
+		$("#viewModal").modal("hide");
+		var no = $("#viewModelNo").val();
+		
+		$.ajax({
+			url: "${pageContext.request.contextPath}/gallery/delete",
+			type: "post",
+			contentType : "application/json",
+			data: JSON.stringify(no),
+			dataType: "json",
+			success: function(result){
+				if(result > 0) {
+					$("#g" + no).remove();
+				}
+			},
+			error : function(XHR, status, error) {
+				console.error(status + " : " + error);
+			}
+		});
+	});
 	
-	
-	//모달창 띄우기
-	$("#addModal").modal("show");
-});
-
-
-//이미지 클릭했을 때
-$("#viewArea").on("click", ".view", function(){
-	console.log("이미지 클릭!");
-	
-	//모달창 띄우기
-	$("#viewModal").modal("show");
-});
-
-
-
-//이미지-모달창의 삭제버튼 클릭할때
-$("#btnDel").on("click", function(){
-	console.log("모달>삭제버튼 클릭");
-	
-	//삭제버튼의 no값 꺼내오기
-	var $this = $(this);
-	var no = $this.data("no");
-	//console.log(no);
-	
-});
-
-
 </script>
 
 </html>

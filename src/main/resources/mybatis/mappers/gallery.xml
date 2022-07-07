@@ -16,18 +16,30 @@
 	
 	
 	
-	<!-- 갤러리 리스트 galleryList -->
-	<select id="galleryList" resultMap="resultMapGalleryVo">
-		<![CDATA[
-			select  no,
-					user_no userNo,
-					content,
-					filePath,
-					orgName,
-					saveName,
-					fileSize
-			from gallery
-		]]>
+	<!-- getList -->
+	<select id="getList" resultType="map">
+	<![CDATA[
+		select	g.no,
+				user_no USERNO,
+				name,
+				filePath,
+				saveName
+		from users u, gallery g
+		where u.no = g.user_no
+	]]>
+	</select>
+	
+	
+	
+	<!-- getGallery -->
+	<select id="getGallery" parameterType="String" resultType="GalleryVo">
+	<![CDATA[
+		select	no,
+				content,
+				saveName
+		from gallery
+		where no = #{no}
+	]]>
 	</select>
 	
 	<!-- 갤러리 등록 saveImg -->
@@ -37,6 +49,32 @@
 			values(seq_gallery_no.nextval, #{userNo}, #{content}, #{filePath}, #{orgName}, #{saveName}, #{fileSize})
 		]]>
 	</insert>
+	
+	
+	
+	
+	<insert id="insert" parameterType="FileVo">
+	<![CDATA[
+		insert into gallery
+		values(seq_gallery_no.nextval, #{userNo}, #{content}, #{filePath}, #{orgName}, #{saveName}, #{fileSize})
+	]]>
+	</insert>
+	
+	
+	
+	
+	<delete id="delete" parameterType="int">
+	<![CDATA[
+		delete from gallery
+		where no = #{no}
+	]]>
+	</delete>
+	
+	
+	
+	
+	
+	
 	
 	
 </mapper>
